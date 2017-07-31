@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
 
-    <link href='node_modules/fullcalendar/dist//fullcalendar.css' rel='stylesheet' />
+    <link href='node_modules/fullcalendar/dist/fullcalendar.css' rel='stylesheet' />
     <link href='node_modules/fullcalendar/dist/fullcalendar.print.css' rel='stylesheet' media='print' />
 
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
@@ -31,7 +31,6 @@
             /* initialize the external events
             -----------------------------------------------------------------*/
             $('#external-events .fc-event').each(function () {
-
                 $(this).data('event', {
                     title: $.trim($(this).text()),
                     stick: true,
@@ -69,7 +68,7 @@
 
                     if (jsEvent.pageX >= x1 && jsEvent.pageX <= x2 &&
                         jsEvent.pageY >= y1 && jsEvent.pageY <= y2) {
-                        $('#calendar').fullCalendar('removeEvents', event.id);
+                        $('#calendar').fullCalendar('removeEvents', event._id);
                     }
                 }
             });

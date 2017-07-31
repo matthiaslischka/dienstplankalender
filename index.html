@@ -23,6 +23,7 @@
     <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/fullcalendar/dist/fullcalendar.js"></script>
     <script src="node_modules/components-jqueryui/jquery-ui.js"></script>
+    <script src="node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
     <script src="https://rawgithub.com/nwcell/ics.js/master/ics.deps.min.js"></script>
 
     <script src="js/main.js"></script>
@@ -73,6 +74,8 @@
                     }
                 }
             });
+
+            $('#fc-event').draggable();
         });
 
         function exportCalendarToIcal() {

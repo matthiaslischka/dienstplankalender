@@ -14,15 +14,16 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
 
-    <link href='node_modules/fullcalendar/dist/fullcalendar.css' rel='stylesheet' />
-    <link href='node_modules/fullcalendar/dist/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <link href="node_modules/fullcalendar/dist/fullcalendar.css" rel="stylesheet" />
+    <link href="node_modules/fullcalendar/dist/fullcalendar.print.css" rel="stylesheet" media="print" />
 
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 
-    <script src='node_modules/moment/moment.js'></script>
-    <script src='node_modules/jquery/dist/jquery.js'></script>
-    <script src='node_modules/fullcalendar/dist/fullcalendar.js'></script>
-    <script src='node_modules/components-jqueryui/jquery-ui.js'></script>
+    <script src="node_modules/moment/moment.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/fullcalendar/dist/fullcalendar.js"></script>
+    <script src="node_modules/components-jqueryui/jquery-ui.js"></script>
+    <script src="https://rawgithub.com/nwcell/ics.js/master/ics.deps.min.js"></script>
 
     <script src="js/main.js"></script>
 
@@ -73,6 +74,16 @@
                 }
             });
         });
+
+        function exportCalendarToIcal() {
+            var cal = ics();
+
+            $.each($('#calendar').fullCalendar('clientEvents'), (function (index, entry) {
+                cal.addEvent(entry.title, '', '', entry.start.toDate(), entry.start.toDate());
+            }));
+
+            cal.download();
+        }
     </script>
 
 </head>
@@ -99,6 +110,10 @@
 
             <div id="calendarTrash" class="calendar-trash">
                 <img src="img/trash.jpg" />
+            </div>
+
+            <div id="exportButton">
+                <button onclick="exportCalendarToIcal()">Download</button>
             </div>
         </div>
 

@@ -152,7 +152,11 @@ textarea {
 	#calendar {
 		float: right;
 		width: 900px;
-	}
+    }
+    
+    #exportButton{
+        margin: 30px 0 10px 0;
+    }
 
 
 

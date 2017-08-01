@@ -81,11 +81,31 @@
         function exportCalendarToIcal() {
             var cal = ics();
 
+            var currentDate;
             $.each($('#calendar').fullCalendar('clientEvents'), (function (index, entry) {
-                cal.addEvent(entry.title, '', '', entry.start.toDate(), entry.start.toDate());
+
+                currentDate = entry.start.toDate();
+                var shift = $('div.fc-event:contains("' + entry.title + '")')[0];
+                var shiftFromString = shift.getAttribute("data-from");
+                var shiftFromSeconds = toSeconds(shiftFromString);
+
+                var shiftToString = shift.getAttribute("data-to");
+                var shiftToSeconds = toSeconds(shiftToString);
+                if (shiftToSeconds < shiftFromSeconds)
+                    shiftToSeconds += 86400;
+
+                shiftFromDate = moment(currentDate).add(shiftFromSeconds, 's');
+                shiftToDate = moment(currentDate).add(shiftToSeconds, 's');
+
+                cal.addEvent(entry.title, '', '', shiftFromDate, shiftToDate);
             }));
 
             cal.download();
+        }
+
+        function toSeconds(hourAndMinuteString) {
+            var p = hourAndMinuteString.split(':');
+            return parseInt(p[0], 10) * 3600 + parseInt(p[1], 10) * 60;
         }
     </script>
 
@@ -100,9 +120,9 @@
 
         <div id='external-events'>
             <h4>Dienste</h4>
-            <div class='fc-event'>ND</div>
+            <div class='fc-event' data-from="19:00" data-to="07:30">ND</div>
             <div class='fc-event'>B1</div>
-            <div class='fc-event'>B2</div>
+            <div class='fc-event' id="emily">B2</div>
             <div class='fc-event'>B6</div>
             <div class='fc-event'>B9</div>
             <div class='fc-event'>UR</div>

@@ -109,8 +109,9 @@ textarea {
 	}
 		
 	#external-events {
+        margin-top: 48px;
         float: left; 
-		width: 100px;
+		width: 150px;
 		padding: 0 10px;
 		border: 1px solid #ccc;
 		background: #eee;

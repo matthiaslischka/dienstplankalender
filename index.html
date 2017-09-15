@@ -24,7 +24,7 @@
     <script src="node_modules/fullcalendar/dist/fullcalendar.js"></script>
     <script src="node_modules/components-jqueryui/jquery-ui.js"></script>
     <script src="node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
-    <script src="https://rawgithub.com/nwcell/ics.js/master/ics.deps.min.js"></script>
+    <script src="js/vendor/ics.js/75ced77/ics.deps.min.js"></script>
 
     <script src="js/main.js"></script>
 
@@ -84,8 +84,20 @@
             var cal = ics();
 
             $.each($('#calendar').fullCalendar('clientEvents'), (function (index, entry) {
-                var shiftFromDate = entry.start.toDate();
-                var shiftToDate = entry.start.add(1, 'd').toDate();
+
+                var currentDate = moment(entry.start).add(entry.start.toDate().getTimezoneOffset(), 'm');
+                var shift = $('div.fc-event:contains("' + entry.title + '")')[0];
+                var shiftStartString = shift.getAttribute("data-from");
+                var shiftStartMinutes = toMinutes(shiftStartString);
+
+                var shiftStopString = shift.getAttribute("data-to");
+                var shiftStopMinutes = toMinutes(shiftStopString);
+                if (shiftStopMinutes < shiftStartMinutes)
+                    shiftStopMinutes += 24*60;
+
+                shiftFromDate = moment(currentDate).add(shiftStartMinutes, 'm');
+                shiftToDate = moment(currentDate).add(shiftStopMinutes, 'm');
+
                 cal.addEvent(entry.title, '', '', shiftFromDate, shiftToDate);
             }));
 
@@ -109,16 +121,16 @@
 
         <div id='external-events'>
             <h4>Dienste</h4>
-            <div class='fc-event'>ND (19:00 - 07:30)</div>
-            <div class='fc-event'>B1 (07:00 - 19:30)</div>
-            <div class='fc-event'>B2 (07:00 - 13:00)</div>
-            <div class='fc-event'>B6 (07:00 - 15:30)</div>
-            <div class='fc-event'>B9 (07:00 - 17:30)</div>
-            <div class='fc-event'>UR</div>
-            <div class='fc-event'>NG</div>
-            <div class='fc-event'>DF</div>
-            <div class='fc-event'>ZA</div>
-            <div class='fc-event'>KR</div>
+            <div class='fc-event' data-from="19:00" data-to="07:30">ND</div>
+            <div class='fc-event' data-from="07:00" data-to="19:30">B1</div>
+            <div class='fc-event' data-from="07:00" data-to="13:00">B2</div>
+            <div class='fc-event' data-from="07:00" data-to="15:30">B6</div>
+            <div class='fc-event' data-from="07:00" data-to="17:30">B9</div>
+            <div class='fc-event' data-from="00:00" data-to="00:00">UR</div>
+            <div class='fc-event' data-from="00:00" data-to="00:00">NG</div>
+            <div class='fc-event' data-from="00:00" data-to="00:00">DF</div>
+            <div class='fc-event' data-from="00:00" data-to="00:00">ZA</div>
+            <div class='fc-event' data-from="00:00" data-to="00:00">KR</div>
 
             <div id="calendarTrash" class="calendar-trash">
                 <img src="img/trash.jpg" />
